@@ -1,0 +1,140 @@
+Mesh LeftArm  Bone Index 36 
+Mesh LeftArm  Bone Index 37 
+Mesh LeftArm  Bone Index 38 
+Mesh LeftArm  Bone Index 39 
+Mesh LeftArm  Bone Index 40 
+Mesh LeftArm  Bone Index 46 
+Mesh RightArm  Bone Index 24 
+Mesh RightArm  Bone Index 25 
+Mesh RightArm  Bone Index 26 
+Mesh RightArm  Bone Index 27 
+Mesh RightArm  Bone Index 32 
+Mesh RightArm  Bone Index 34 
+Mesh LeftLeg  Bone Index 10 
+Mesh LeftLeg  Bone Index 11 
+Mesh LeftLeg  Bone Index 12 
+Mesh LeftLeg  Bone Index 15 
+Mesh RightLeg  Bone Index 3 
+Mesh RightLeg  Bone Index 4 
+Mesh RightLeg  Bone Index 5 
+Mesh RightLeg  Bone Index 8 
+Mesh RightLeg  Bone Index 15 
+Mesh Hip  Bone Index 2 
+Mesh Hip  Bone Index 3 
+Mesh Hip  Bone Index 10 
+Mesh Hip  Bone Index 17 
+Mesh ChestFront  Bone Index 17 
+Mesh ChestFront  Bone Index 20 
+Mesh ChestFront  Bone Index 21 
+Mesh ChestFront  Bone Index 24 
+Mesh ChestFront  Bone Index 36 
+Mesh ChestBack  Bone Index 17 
+Mesh ChestBack  Bone Index 20 
+Mesh ChestBack  Bone Index 21 
+Mesh ChestBack  Bone Index 24 
+Mesh ChestBack  Bone Index 36 
+Mesh Face  Bone Index 21 
+Mesh Face  Bone Index 22 
+Mesh Head  Bone Index 21 
+Mesh Head  Bone Index 22 
+---
+Bones: 48
+Bone  Bip01   num Vertex 0 
+Bone  Bip01 Footsteps   num Vertex 0 
+Bone  Bip01 Pelvis   num Vertex 5 
+Bone  Bip01 L Thigh   num Vertex 10 
+Bone  Bip01 L Calf   num Vertex 8 
+Bone  Bip01 L Foot   num Vertex 6 
+Bone  Bip01 L Toe0   num Vertex 0 
+Bone  Bip01 L Toe01   num Vertex 0 
+Bone  Bip01 L Toe02   num Vertex 5 
+Bone  Dummy16   num Vertex 0 
+Bone  Bip01 R Thigh   num Vertex 10 
+Bone  Bip01 R Calf   num Vertex 8 
+Bone  Bip01 R Foot   num Vertex 6 
+Bone  Bip01 R Toe0   num Vertex 0 
+Bone  Bip01 R Toe01   num Vertex 0 
+Bone  Bip01 R Toe02   num Vertex 7 
+Bone  Dummy11   num Vertex 0 
+Bone  Bip01 Spine   num Vertex 18 
+Bone  Bip01 Spine1   num Vertex 0 
+Bone  Bip01 Spine2   num Vertex 0 
+Bone  Bip01 Spine3   num Vertex 4 
+Bone  Bip01 Neck   num Vertex 64 
+Bone  Bip01 Head   num Vertex 143 
+Bone  Dummy21   num Vertex 0 
+Bone  Bip01 L Clavicle   num Vertex 10 
+Bone  Bip01 L UpperArm   num Vertex 4 
+Bone  Bip01 L Forearm   num Vertex 8 
+Bone  Bip01 L Hand   num Vertex 4 
+Bone  Bip01 L Finger0   num Vertex 0 
+Bone  Bip01 L Finger01   num Vertex 0 
+Bone  Bip01 L Finger02   num Vertex 0 
+Bone  Dummy06   num Vertex 0 
+Bone  Bip01 L Finger1   num Vertex 4 
+Bone  Bip01 L Finger11   num Vertex 0 
+Bone  Bip01 L Finger12   num Vertex 4 
+Bone  Dummy07   num Vertex 0 
+Bone  Bip01 R Clavicle   num Vertex 10 
+Bone  Bip01 R UpperArm   num Vertex 4 
+Bone  Bip01 R Forearm   num Vertex 8 
+Bone  Bip01 R Hand   num Vertex 4 
+Bone  Bip01 R Finger0   num Vertex 4 
+Bone  Bip01 R Finger01   num Vertex 0 
+Bone  Bip01 R Finger02   num Vertex 0 
+Bone  Dummy01   num Vertex 0 
+Bone  Bip01 R Finger1   num Vertex 0 
+Bone  Bip01 R Finger11   num Vertex 0 
+Bone  Bip01 R Finger12   num Vertex 4 
+Bone  Dummy02   num Vertex 0 
+---
+Mesh LeftArm  num Bones 6 
+Bone name Bip01 R Clavicle weighs: 10 
+Bone name Bip01 R UpperArm weighs: 4 
+Bone name Bip01 R Forearm weighs: 8 
+Bone name Bip01 R Hand weighs: 4 
+Bone name Bip01 R Finger0 weighs: 4 
+Bone name Bip01 R Finger12 weighs: 4 
+Mesh RightArm  num Bones 6 
+Bone name Bip01 L Clavicle weighs: 10 
+Bone name Bip01 L UpperArm weighs: 4 
+Bone name Bip01 L Forearm weighs: 8 
+Bone name Bip01 L Hand weighs: 4 
+Bone name Bip01 L Finger1 weighs: 4 
+Bone name Bip01 L Finger12 weighs: 4 
+Mesh LeftLeg  num Bones 4 
+Bone name Bip01 R Thigh weighs: 10 
+Bone name Bip01 R Calf weighs: 8 
+Bone name Bip01 R Foot weighs: 6 
+Bone name Bip01 R Toe02 weighs: 7 
+Mesh RightLeg  num Bones 5 
+Bone name Bip01 L Thigh weighs: 10 
+Bone name Bip01 L Calf weighs: 8 
+Bone name Bip01 L Foot weighs: 6 
+Bone name Bip01 L Toe02 weighs: 5 
+Bone name Bip01 R Toe02 weighs: 7 
+Mesh Hip  num Bones 4 
+Bone name Bip01 Pelvis weighs: 5 
+Bone name Bip01 L Thigh weighs: 10 
+Bone name Bip01 R Thigh weighs: 10 
+Bone name Bip01 Spine weighs: 18 
+Mesh ChestFront  num Bones 5 
+Bone name Bip01 Spine weighs: 18 
+Bone name Bip01 Spine3 weighs: 4 
+Bone name Bip01 Neck weighs: 64 
+Bone name Bip01 L Clavicle weighs: 10 
+Bone name Bip01 R Clavicle weighs: 10 
+Mesh ChestBack  num Bones 5 
+Bone name Bip01 Spine weighs: 18 
+Bone name Bip01 Spine3 weighs: 4 
+Bone name Bip01 Neck weighs: 64 
+Bone name Bip01 L Clavicle weighs: 10 
+Bone name Bip01 R Clavicle weighs: 10 
+Mesh Face  num Bones 2 
+Bone name Bip01 Neck weighs: 64 
+Bone name Bip01 Head weighs: 143 
+Mesh Head  num Bones 2 
+Bone name Bip01 Neck weighs: 64 
+Bone name Bip01 Head weighs: 143 
+---
+read complete

@@ -97,6 +97,8 @@ type
 
     Function TransformNormal(P:Vector3D):Vector3D;
 
+        procedure setTranslation(x,y,z:single);
+
     Procedure Orthonormalize;
 
     Function Get(I,J:Integer):Single;
@@ -108,6 +110,8 @@ type
 
   Matrix3x3=Packed Object
     m:Array [0..8] Of Single;
+
+    function MulVec(v:Vector3D):Vector3D;
   End;
 
   PMatrixArray=^MatrixArray;
@@ -143,7 +147,7 @@ Type
     // Returns a normalized quaternion
     Procedure Normalize;
 
-
+     function Inverse():quaternion;
 
     Procedure Add(Const B:Quaternion);
     Procedure Subtract(Const B:Quaternion);
@@ -240,6 +244,7 @@ Function GetTriangleHeight(H0,H1,H2:Single; X,Y:Single; Normal:PVector3D=Nil):Si
 
 Function QuaternionCreate(Const X,Y,Z,W:Single):Quaternion;Overload;
 Function QuaternionCreate(Const V:Vector3D):Quaternion;Overload;
+Function QuaternionCreate(Const pMatrix:Matrix):Quaternion;Overload;
 
 // Creates a quaterion with specified rotation
 Function QuaternionRotation(Const Rotation:Vector3D):Quaternion;
@@ -261,7 +266,7 @@ Function QuaternionSlerp(A,B:Quaternion; Const T:Single):Quaternion;
 Function QuaternionConjugate(Const Q:Quaternion):Quaternion;
 
 // Multiplies two quaternions
-Function QuaternionMultiply(Const Ql,Qr:Quaternion):Quaternion;
+Function QuaternionMultiply( Ql,Qr:Quaternion):Quaternion;
 
 Function QuaternionAdd(Const A,B:Quaternion):Quaternion;
 
@@ -543,6 +548,12 @@ procedure Matrix.SetData(I, J: Integer;d:single);
 Begin
  V[J*4+I]:=d;
 End;
+procedure Matrix.setTranslation(x,y,z:single);
+begin
+  V[12] := X;
+  V[13] := Y;
+  V[14] := Z;
+end;
 
 procedure Matrix.Copy(mat:Matrix);
 var i : integer;
@@ -619,6 +630,14 @@ p.x := p.x*v[0]+p.y*v[4]+p.z*v[8];
 p.y := p.x*v[1]+p.y*v[5]+p.z*v[9];
 p.z := p.x*v[2]+p.y*v[6]+p.z*v[10];
 Result:=p;
+
+end;
+
+function Matrix3x3.MulVec(v:Vector3D):Vector3D;
+begin
+ 	Result.x:=m[0] * v.x + m[3] * v.y + m[6] * v.z;
+  Result.y:=m[1] * v.x + m[4] * v.y + m[7] * v.z;
+  Result.z:=m[2] * v.x + m[5] * v.y + m[8] * v.z;
 
 end;
 
@@ -829,6 +848,7 @@ Begin
   Result.V[14] := Z;
   Result.V[15] := 1.0;
 End;
+
 
 Function MatrixScale(Const Scale:Vector3D):Matrix;  
 Begin
@@ -1463,17 +1483,70 @@ Begin
   Result.W := W;
 End;
 
+
+{
+     * <code>fromAngles</code> builds a Quaternion from the Euler rotation
+     * angles (x,y,z) aka (pitch, yaw, rall)). Note that we are applying in order: (y, z, x) aka (yaw, roll, pitch) but
+     * we've ordered them in x, y, and z for convenience.
+     * @see <a href="http://www.euclideanspace.com/maths/geometry/rotations/conversions/eulerToQuaternion/index.htm">http://www.euclideanspace.com/maths/geometry/rotations/conversions/eulerToQuaternion/index.htm</a>
+     *
+     * @param xAngle
+     *            the Euler pitch of rotation (in radians). (aka Attitude, often rot
+     *            around x)
+     * @param yAngle
+     *            the Euler yaw of rotation (in radians). (aka Heading, often
+     *            rot around y)
+     * @param zAngle
+     *            the Euler roll of rotation (in radians). (aka Bank, often
+     *            rot around z)
+     */
+     }
 Function QuaternionCreate(Const V:Vector3D):Quaternion;
+var
+
+cosYXcosZ,sinYXsinZ,cosYXsinZ,sinYXcosZ,angle,sinY, sinZ, sinX, cosY, cosZ, cosX:single;
 Begin
-  Result.X := V.X;
-  Result.Y := V.Y;
-  Result.Z := V.Z;
-  Result.W := 1.0;
+        angle := v.z * 0.5;
+        sinZ := sin(angle);
+        cosZ := cos(angle);
+        angle := v.y * 0.5;
+        sinY := sin(angle);
+        cosY := cos(angle);
+        angle := v.x * 0.5;
+        sinX := sin(angle);
+        cosX := cos(angle);
+
+        // variables used to reduce multiplication calls.
+         cosYXcosZ := cosY * cosZ;
+         sinYXsinZ := sinY * sinZ;
+         cosYXsinZ := cosY * sinZ;
+         sinYXcosZ := sinY * cosZ;
+
+        result.w := (cosYXcosZ * cosX - sinYXsinZ * sinX);
+        result.x := (cosYXcosZ * sinX + sinYXsinZ * cosX);
+        result.y := (sinYXcosZ * cosX + cosYXsinZ * sinX);
+        result.z := (cosYXsinZ * cosX - sinYXcosZ * sinX);
+    //    result.Normalize();
+
 End;
 
 Function Quaternion.Length:Single;
 Begin
   Result := Sqrt(Sqr(X) + Sqr(Y) + Sqr(Z) + Sqr(W));
+End;
+
+Function Quaternion.Inverse:Quaternion;
+var
+  inverseNorm,norm:Single;
+Begin
+ norm := self.w * self.w + self.x * self.x + self.y * self.y + self.z * self.z;
+			if( norm > 0.0 )then
+			begin
+				 inverseNorm := 1.0 / norm;
+			  	Result:=QuaternionCreate( self.w * inverseNorm, -self.x * inverseNorm, -self.y * inverseNorm, -self.z * inverseNorm );
+			end
+			else  result:= QuaternionZero;
+
 End;
 
 Function Quaternion.Equals(Const B:Quaternion):Boolean;
@@ -1523,6 +1596,74 @@ End;
         result.z := (cosYaw * cosPitch * sinRoll) - (sinYaw * sinPitch * cosRoll);
         result.w := (cosYaw * cosPitch * cosRoll) + (sinYaw * sinPitch * sinRoll);
 end;
+
+Function QuaternionCreate(Const pMatrix:Matrix):Quaternion;
+var
+  scale,diagonal:Single;
+  q:Quaternion;
+
+begin
+    diagonal := pMatrix.v[0] + pMatrix.v[5] + pMatrix.v[10] + 1;
+	     scale := 0.0;
+	
+		 q:= QuaternionCreate(0, 0, 0, 1);
+
+
+		if(diagonal > 0.00000001)  then
+	begin
+		// Calculate the scale of the diagonal
+		scale := (sqrt(diagonal ) * 2);
+
+		// Calculate the x, y, x and w of the quaternion through the respective equation
+		q.x := ( pMatrix.v[9] - pMatrix.v[6] ) / scale;
+		q.y := ( pMatrix.v[2] - pMatrix.v[8] ) / scale;
+		q.z := ( pMatrix.v[4] - pMatrix.v[1] ) / scale;
+		q.w := 0.25 * scale;
+	end
+	else
+    begin
+		// If the first element of the diagonal is the greatest value
+		if (( pMatrix.v[0] > pMatrix.v[5]) and (pMatrix.v[0] > pMatrix.v[10] )) then
+		begin
+			// Find the scale according to the first element, and double that value
+			scale  := sqrt( 1.0 + pMatrix.v[0] - pMatrix.v[5] - pMatrix.v[10] ) * 2.0;
+
+			// Calculate the x, y, x and w of the quaternion through the respective equation
+			q.x := 0.25 * scale;
+			q.y := (pMatrix.v[4] + pMatrix.v[1] ) / scale;
+			q.z := (pMatrix.v[2] + pMatrix.v[8] ) / scale;
+			q.w := (pMatrix.v[9] - pMatrix.v[6] ) / scale;
+		end
+		// Else if the second element of the diagonal is the greatest value
+		else if ( pMatrix.v[5] > pMatrix.v[10] ) then
+		begin
+			// Find the scale according to the second element, and double that value
+			scale  := sqrt( 1.0 + pMatrix.v[5] - pMatrix.v[0] - pMatrix.v[10] ) * 2.0;
+			
+			// Calculate the x, y, x and w of the quaternion through the respective equation
+			q.x := (pMatrix.v[4] + pMatrix.v[1] ) / scale;
+			q.y := 0.25 * scale;
+		 	q.z := (pMatrix.v[9] + pMatrix.v[6] ) / scale;
+			q.w := (pMatrix.v[2] - pMatrix.v[8] ) / scale;
+		end
+		// Else the third element of the diagonal is the greatest value
+		else
+		begin
+			// Find the scale according to the third element, and double that value
+			scale  := sqrt( 1.0 + pMatrix.v[10] - pMatrix.v[0] - pMatrix.v[5] ) * 2.0;
+
+			// Calculate the x, y, x and w of the quaternion through the respective equation
+			q.x := (pMatrix.v[2] + pMatrix.v[8] ) / scale;
+			q.y := (pMatrix.v[9] + pMatrix.v[6] ) / scale;
+			q.z := 0.25 * scale;
+			q.w := (pMatrix.v[4] - pMatrix.v[1] ) / scale;
+		end;
+
+	end;
+
+      Result:= q;
+
+end;
 
 Function QuaternionRotationMatrix(Const q:Quaternion):Matrix3x3;
 var
@@ -1607,7 +1748,7 @@ Begin
   Result.V[15] := 1.0;
 End;
 
-Function QuaternionMultiply(Const Ql,Qr:Quaternion):Quaternion;
+Function QuaternionMultiply( Ql,Qr:Quaternion):Quaternion;
 Begin
   Result.W := qL.W * qR.W - qL.X * qR.X - qL.Y * qR.Y - qL.Z * qR.Z;
   Result.X := qL.W * qR.X + qL.X * qR.W + qL.Y * qR.Z - qL.Z * qR.Y;

@@ -1,9 +1,9 @@
 object Form3: TForm3
-  Left = 192
-  Top = 124
+  Left = 590
+  Top = 148
   Width = 674
   Height = 489
-  Caption = 'Form3'
+  Caption = 'Debug Log'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,9 +20,16 @@ object Form3: TForm3
     Width = 658
     Height = 451
     Align = alClient
-    Lines.Strings = (
-      'Memo')
+    PopupMenu = PopupMenu
     ScrollBars = ssBoth
     TabOrder = 0
+  end
+  object PopupMenu: TPopupMenu
+    Left = 264
+    Top = 88
+    object clear1: TMenuItem
+      Caption = 'clear'
+      OnClick = clear1Click
+    end
   end
 end

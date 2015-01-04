@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages,Math, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus, ComCtrls, Textures,dglopengl,AppEvnts,morphmath, ExtCtrls, Buttons, StdCtrls, model,Spin,
-  XPMan, JvExControls, JvLinkLabel;
+  XPMan,  JvLinkLabel, JvExControls;
 
 type
   TForm1 = class(TForm)
@@ -55,6 +55,18 @@ type
     ScrollBar: TScrollBar;
     Label2: TLabel;
     JvLinkLabel: TJvLinkLabel;
+    N4: TMenuItem;
+    B3d1: TMenuItem;
+    N7: TMenuItem;
+    Log1: TMenuItem;
+    OpenDialog: TOpenDialog;
+    OpenDialog4: TOpenDialog;
+    Ms3d1: TMenuItem;
+    OpenDialog5: TOpenDialog;
+    Assimp1: TMenuItem;
+    AssimpMesh1: TMenuItem;
+    AssimpAnimation1: TMenuItem;
+    AssimpMergeAnimation1: TMenuItem;
     procedure about1Click(Sender: TObject);
     procedure Load1Click(Sender: TObject);
     procedure import1Click(Sender: TObject);
@@ -86,6 +98,13 @@ type
     procedure Lof1Click(Sender: TObject);
     procedure TimerTimer(Sender: TObject);
     procedure ScrollBarChange(Sender: TObject);
+    procedure Log1Click(Sender: TObject);
+    procedure B3d1Click(Sender: TObject);
+    procedure Ms3d1Click(Sender: TObject);
+    procedure ButtonClick(Sender: TObject);
+    procedure AssimpMesh1Click(Sender: TObject);
+    procedure AssimpAnimation1Click(Sender: TObject);
+    procedure AssimpMergeAnimation1Click(Sender: TObject);
   private
     procedure RenderScene;
   end;
@@ -140,13 +159,6 @@ end;
  mesh:=Tmodel.Create;
  mesh.loadh3d(OpenDialog1.FileName,ExtractFileDir(OpenDialog1.FileName)+'\Textures\');
 
-  bone:=TBone.Create;
-  bone.position:=VectorCreate(1,5,1);
-  mesh.addChild(bone);
-
-  bone:=TBone.Create;
-  bone.position:=VectorCreate(1,-1,1);
-  mesh.addChild(bone);
 
 
  TrackBar1.Max      := Round(          mesh.duration);
@@ -234,7 +246,7 @@ glEnable(GL_DEPTH_TEST);
 glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT);
 glWidth  := Panel2.Width ;
 glHeight := panel2.Height + 90;
-glSetProj(45, 0.4, 1000);
+glSetProj(45, 0.4, 5000);
 glViewPort(0, 0, glWidth, glHeight);
 
 with Offset do
@@ -350,6 +362,19 @@ begin
     glDepthMask(false);
 
 end;
+
+
+if view_1.Checked then
+begin
+ glEnable(GL_TEXTURE_2D);
+end else
+begin
+glTex_Disable;
+
+end;
+
+
+
 
 if SpeedButton.Down then
  begin
@@ -547,7 +572,7 @@ if MDrag in [1..3] then
    end
   else
    if MDrag = 2 then
-    Offset.Z := min(1000, max(10, Offset.Z + (c.Y - p.Y)))
+    Offset.Z := min(4000, max(10, Offset.Z + (c.Y - p.Y)))
    else
     begin
     Offset.X := Offset.X - c.X + p.X;
@@ -629,4 +654,124 @@ Label2.Caption :='Animation Delay:'+ IntToStr(ScrollBar.Position) ;
 timer.Interval:=ScrollBar.Position;
 end;
 
+procedure TForm1.Log1Click(Sender: TObject);
+begin
+Form3.Show;
+end;
+
+procedure TForm1.B3d1Click(Sender: TObject);
+ begin
+
+if OpenDialog.Execute then
+ begin
+
+ if (mesh<>nil) then
+begin
+    mesh.Destroy;
+    mesh:=nil;
+end;
+
+ mesh:=Tmodel.Create;
+ mesh.importb3d(OpenDialog.FileName,ExtractFileDir(OpenDialog.FileName)+'\Textures\');
+
+
+ TrackBar1.Max      := Round(          mesh.duration);
+ TrackBar1.Position := 0;
+ TrackBar1.OnChange(self);
+
+end;
+end;
+
+procedure TForm1.Ms3d1Click(Sender: TObject);
+begin
+
+if OpenDialog4.Execute then
+ begin
+
+ if (mesh<>nil) then
+begin
+    mesh.Destroy;
+    mesh:=nil;
+end;
+
+ mesh:=Tmodel.Create;
+ mesh.importmsd3d(OpenDialog4.FileName,ExtractFileDir(OpenDialog4.FileName)+'\Textures\');
+
+
+ TrackBar1.Max      := Round(          mesh.duration)-1;
+ TrackBar1.Position := 0;
+ TrackBar1.OnChange(self);
+end;
+end;
+
+procedure TForm1.ButtonClick(Sender: TObject);
+begin
+
+
+ if (mesh<>nil) then
+begin
+    mesh.Destroy;
+    mesh:=nil;
+end;
+
+ mesh:=Tmodel.Create;
+ mesh.importmsd3d('E:\delphi\H3DViewer\media\bird.ms3d','E:\delphi\H3DViewer\media\Textures\');
+
+
+ TrackBar1.Max      := Round(          mesh.duration)-1;
+ TrackBar1.Position := 0;
+
+end;
+
+procedure TForm1.AssimpMesh1Click(Sender: TObject);
+begin
+if OpenDialog5.Execute then
+ begin
+
+ if (mesh<>nil) then
+begin
+    mesh.Destroy;
+    mesh:=nil;
+end;
+
+ mesh:=Tmodel.Create;
+ mesh.importassimp(OpenDialog5.FileName,ExtractFileDir(OpenDialog5.FileName)+'\Textures\');
+
+
+ TrackBar1.Max      := Round(          mesh.duration)-1;
+ TrackBar1.Position := 0;
+ TrackBar1.OnChange(self);
+end;
+end;
+
+procedure TForm1.AssimpAnimation1Click(Sender: TObject);
+begin
+if OpenDialog5.Execute then
+ begin
+
+ mesh.importassimpanimation(OpenDialog5.FileName,ExtractFileDir(OpenDialog5.FileName)+'\Textures\',false);
+
+
+ TrackBar1.Max      := Round(          mesh.duration)-1;
+ TrackBar1.Position := 0;
+ TrackBar1.OnChange(self);
+end;
+end;
+
+procedure TForm1.AssimpMergeAnimation1Click(Sender: TObject);
+begin
+ begin
+if OpenDialog5.Execute then
+ begin
+
+ mesh.importassimpanimation(OpenDialog5.FileName,ExtractFileDir(OpenDialog5.FileName)+'\Textures\',true);
+
+
+ TrackBar1.Max      := Round(          mesh.duration)-1;
+ TrackBar1.Position := 0;
+ TrackBar1.OnChange(self);
+end;
+end;
+
+end;
 end.

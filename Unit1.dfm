@@ -1,8 +1,8 @@
 object Form1: TForm1
-  Left = 313
-  Top = 88
+  Left = 253
+  Top = 78
   AutoScroll = False
-  Caption = 'Haxe 3D Model Viewer'
+  Caption = 'Haxe 3D Model Viewer By Luis Santos AKA DJOKER'
   ClientHeight = 549
   ClientWidth = 790
   Color = clBlack
@@ -169,9 +169,9 @@ object Form1: TForm1
     end
     object GroupBox2: TGroupBox
       Left = 10
-      Top = 221
+      Top = 213
       Width = 154
-      Height = 162
+      Height = 164
       Caption = 'Light'
       TabOrder = 1
       object TrackBar5: TTrackBar
@@ -234,6 +234,35 @@ object Form1: TForm1
         Caption = 'Load Texture'
         OnClick = N2Click
       end
+      object N7: TMenuItem
+        Caption = '-'
+      end
+      object N4: TMenuItem
+        Caption = 'Import'
+        object B3d1: TMenuItem
+          Caption = 'B3d'
+          OnClick = B3d1Click
+        end
+        object Ms3d1: TMenuItem
+          Caption = 'Ms3d'
+          OnClick = Ms3d1Click
+        end
+        object Assimp1: TMenuItem
+          Caption = '-'
+        end
+        object AssimpMesh1: TMenuItem
+          Caption = 'Assimp Mesh'
+          OnClick = AssimpMesh1Click
+        end
+        object AssimpAnimation1: TMenuItem
+          Caption = 'Assimp Animation'
+          OnClick = AssimpAnimation1Click
+        end
+        object AssimpMergeAnimation1: TMenuItem
+          Caption = 'Assimp Merge Animation'
+          OnClick = AssimpMergeAnimation1Click
+        end
+      end
       object N1: TMenuItem
         Caption = '-'
       end
@@ -293,6 +322,10 @@ object Form1: TForm1
         Caption = 'Vetices Trace'
         OnClick = Vetices1Click
       end
+      object Log1: TMenuItem
+        Caption = 'Log'
+        OnClick = Log1Click
+      end
     end
     object about1: TMenuItem
       Caption = 'About'
@@ -330,8 +363,8 @@ object Form1: TForm1
     Top = 66
   end
   object OpenDialog3: TOpenDialog
-    DefaultExt = '*.jpg'
-    Filter = 'Bitmap|*.bmp|Targa|*.tga|Jpg|*.jpg'
+    DefaultExt = '*.*'
+    Filter = 'all images|*.*|Targa|*.tga|bmp|*.bmp|png|*.png|jpg|*.jpg'
     Left = 156
     Top = 70
   end
@@ -341,5 +374,24 @@ object Form1: TForm1
     OnTimer = TimerTimer
     Left = 24
     Top = 507
+  end
+  object OpenDialog: TOpenDialog
+    DefaultExt = 'b3d'
+    Filter = 'Blitz 3d|*.b3d'
+    Left = 80
+    Top = 168
+  end
+  object OpenDialog4: TOpenDialog
+    DefaultExt = '*.ms3d'
+    FileName = 'MilshShape'
+    Filter = 'Milkshape|*.ms3d'
+    Left = 168
+    Top = 184
+  end
+  object OpenDialog5: TOpenDialog
+    DefaultExt = '*.*'
+    Filter = 'All Assimp files|*.*'
+    Left = 128
+    Top = 32
   end
 end

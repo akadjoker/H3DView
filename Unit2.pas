@@ -61,7 +61,7 @@ begin
 
 
 
-       RichEdit.Lines.Add(Format('Vertex Index(%d)  Num Bones (%d)', [j,vertex.numBones]));
+       //RichEdit.Lines.Add(Format('Vertex Index(%d)  Num Bones (%d)', [j,vertex.numBones]));
        {RichEdit.Lines.Add(Format('Position x(%n) y(%n) z(%n)', [vertex.Pos.x,vertex.Pos.y,vertex.Pos.z]));
        RichEdit.Lines.Add(Format('Normal x(%n) y(%n) z(%n)', [vertex.nor.x,vertex.Nor.y,vertex.Nor.z]));
        RichEdit.Lines.Add(Format('TexCoord x(%n) y(%n) ', [vertex.coord0.x,vertex.coord0.y]));
@@ -69,8 +69,9 @@ begin
 
 
        for b:=0 to vertex.numBones-1 do
+
        begin
-          RichEdit.Lines.Add(Format('Bone(%d) Index(%d) Wight(%n)', [b,vertex.bones[b],vertex.weights[b]]))
+          RichEdit.Lines.Add(Format('Bone(%d) Index(%d) Wight(%f)', [b,vertex.bones[b].bone,vertex.bones[b].weight]))
        end;
 
        RichEdit.Lines.Add('                  ');

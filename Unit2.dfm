@@ -1,11 +1,11 @@
 object Form2: TForm2
-  Left = 409
+  Left = 410
   Top = 139
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Debug Vertex Bones'
   ClientHeight = 473
-  ClientWidth = 473
+  ClientWidth = 472
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
